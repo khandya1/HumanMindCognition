@@ -21,4 +21,5 @@ from core.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('wel/', ReactView.as_view(), name="something"),
+    path('del/', EndView.as_view(), name="something"),
 ]
