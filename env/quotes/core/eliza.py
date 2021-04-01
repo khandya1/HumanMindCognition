@@ -80,6 +80,9 @@ gPats = [
     "Okay , no problem",
     "Want to talk about something else?"]],
 
+  [r'ecstacy(.*)',
+  [  "That's Great!!",
+    "Do you want to talk about it"]],
 
   [r'I need (.*)',
   [  "Why do you need %1?",
