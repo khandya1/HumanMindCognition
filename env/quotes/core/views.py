@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from . serializer import *
 # Create your views here.
 
-from . eliza import Eliza 
+from . eliza_angry import Eliza_Angry
   
 class ReactView(APIView):
     
@@ -18,7 +18,7 @@ class ReactView(APIView):
   
     def post(self, request):
   
-        eliza = Eliza()
+        eliza = Eliza_Angry()
         answer = eliza.respond(request.data['name'])
         request.data['detail'] = answer
         serializer = ReactSerializer(data=request.data) 

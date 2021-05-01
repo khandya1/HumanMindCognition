@@ -2,7 +2,7 @@ import string
 import re
 import random
 
-class Eliza:
+class Eliza_Sad:
   def __init__(self):
     self.keys = list(map(lambda x: re.compile(x[0], re.IGNORECASE), gPats))
     self.values = list(map(lambda x: x[1], gPats))
@@ -20,14 +20,9 @@ class Eliza:
         words[i] = vocabulary[words[i]]
     return ' '.join(words)
 
-
-
-
   #  respond: take a string, a set of regexps, and a corresponding
   #    set of response lists; find a match, and return a randomly
   #    chosen response from the corresponding list.
-
-
 
 
   def respond(self, text):
@@ -52,10 +47,8 @@ class Eliza:
         return resp
     return None
 
-
 # gReflections, a translation table used to convert things you say
 #    into things the computer says back, e.g. "I am" --> "you are"
-
 
 gReflections = {
   "am"   : "are",
@@ -74,8 +67,6 @@ gReflections = {
   "me"  : "you"
 }
 
-
-
 # gPats, the main response table.  Each element of the list is a
 #  two-element list; the first is a regexp, and the second is a
 #  list of possible responses, with group-macros labelled as
@@ -85,24 +76,41 @@ gReflections = {
 gPats = [
          
   [r'No (.*)',
-  [  "Are you sure about it?",
+  [ "Are you sure about it?",
     "Okay , no problem",
     "Want to talk about something else?"]],
 
-  [r'ecstacy(.*)',
-  [  "That's Great!!",
-    "Do you want to talk about it"]],
+  [r'sad',
+    [  "I am here if you want to share anything.",
+    "Do you want to share something?",
+    "There,there , it's okay.",
+    "I am here to listen to you and support you.",
+    "Tell me what is bothering you."]],
+
+
+  [r'(.*) current situation (.*)',
+    [  "What is it about current situation?",
+    "Please tell me more about it",
+    "Go on , I am listening",
+  ]],
+
+  [r'(.*) sick of (.*)',
+    [  "Why do you feel you are sick of %1",
+    "Have you discussed about it? ",
+  ]],
+
+  [r'(.*) sick (.*)',
+    [  "I hope times will get better",
+    "Let's pray for things to get better.",
+  ]],
 
   [r'I trust you',
   [  "Yes you can, do you need help?",
-     "Thank you for saying that , it means a lot. "
-    "Yes, Do you want to share something?",
-  ]],
+     "Thank you for saying that , it means a lot." ]],
 
-  [r'Can I trust you',
+  [r'Can I trust you(.*)',
   [  "Yes you can, do you need help?",
-    "Yes, Do you want to share something?",
-  ]],
+    "Yes, Do you want to share something?" ]],
    
   [r'I need (.*)',
   [  "Why do you need %1?",
@@ -115,7 +123,7 @@ gPats = [
     "Do you really want me to %1?"]],
 
   [r'Why can\'?t I ([^\?]*)\??',
-  [  "Do you think you should be able to %1?",
+  [ "Do you think you should be able to %1?",
     "If you could %1, what would you do?",
     "I don't know -- why can't you %1?",
     "Have you really tried?"]],
@@ -125,8 +133,13 @@ gPats = [
     "Perhaps you could %1 if you tried.",
     "What would it take for you to %1?"]],
 
+  [r'I couldn\'?t (.*)',
+  [  "Are you sure?",
+    "Have you tried other options?",
+    "How can I help you?"]],
+
   [r'I didn\'?t (.*)',
-  [  "Why did you not %1?",
+  [ "Why did you not %1?",
     "Perhaps you could %1 if you tried.",
     "What would it take for you to %1?"]],
 
@@ -142,7 +155,7 @@ gPats = [
     "Why do you think you're %1?"]],
 
   [r'Are you ([^\?]*)\??',
-  [  "Why does it matter whether I am %1?",
+  [ "Why does it matter whether I am %1?",
     "Would you prefer it if I were not %1?",
     "Perhaps you believe I am %1.",
     "I may be %1 -- what do you think?"]],
@@ -153,19 +166,14 @@ gPats = [
     "What do you think?"]],
 
   [r'How (.*)',
-  [  "Can't really say ",
+  [ "Can't really say ",
     "Perhaps you can answer your own question.",
     "What is it you're really asking?"]],
 
   [r'Because (.*)',
   [  "Is that the real reason?",
     "What other reasons come to mind?",
-    "Does that reason apply to anything else?",
-    "If %1, what else must be true?"]],
-
-  [r'(.*) sorry (.*)',
-  [  "There are many times when no apology is needed.",
-    "What feelings do you have when you apologize?"]],
+    "Does that reason apply to anything else?"]],
 
   [r'Hello(.*)',
   [  "Hello... I'm glad you could drop by today.",
@@ -173,7 +181,7 @@ gPats = [
     "Hello, how are you feeling today?"]],
 
   [r'I think (.*)',
-  [  "Do you doubt %1?",
+  [ "Do you doubt %1?",
     "Do you really think so?",
     "But you're not sure %1?"]],
 
@@ -199,7 +207,7 @@ gPats = [
     "It could well be that %1."]],
 
   [r'It is (.*)',
-  [  "You seem very certain.",
+  [ "You seem very certain.",
     "If I told you that it probably isn't %1, what would you feel?"]],
 
   [r'Can you ([^\?]*)\??',
@@ -210,6 +218,11 @@ gPats = [
   [r'Can I ([^\?]*)\??',
   [  "Perhaps you don't want to %1.",
     "Do you want to be able to %1?",
+    "If you could %1, would you?"]],
+
+  [r'Do you really ([^\?]*)\??',
+  [  "Yes I do",
+    "What are your opinions on it?",
     "If you could %1, would you?"]],
 
   [r'You are (.*)',
@@ -230,9 +243,7 @@ gPats = [
 
   [r'I feel (.*)',
   [  "Good, tell me more about these feelings.",
-    "Do you often feel %1?",
-    "When do you usually feel %1?",
-    "When you feel %1, what do you do?"]],
+    "Do you often feel %1?"]],
 
     [r'I have (.*)',
     [  "Why do you tell me that you've %1?",
@@ -255,13 +266,18 @@ gPats = [
     "When your %1, how do you feel?"]],
 
     [r'You (.*)',
-    ["We should be discussing you, not me.",
+    ["We should be discussing about you, not me.",
     "Why do you say that about me?",
     "Why do you care whether I %1?"]],
 
     [r'Why (.*)',
     [  "Why don't you tell me the reason why %1?",
     "Why do you think %1?" ]],
+
+    [r'I want to (.*)',
+    [  "What would it mean to you?",
+    "Why do you want to %1?",
+    ]],
 
     [r'I want (.*)',
     [  "What would it mean to you if you got %1?",
@@ -293,66 +309,39 @@ gPats = [
     [r'(.*)sad',
     [  "I am here if you want to share anything.",
     "Do you want to share something?",
-    "There,there , it's okay. Is there something you want to talk about?",
+    "There,there , it's okay.",
     "I am here to listen to you and support you.",
     "Tell me what is bothering you."]],
 
-    [r'(.*)makes(.*)happy',
-    [  "That's great",
-    "You should do more of it",
-    "Tell me more"
-    ]],
-
-
-    [r'(.*)happy',
-    [  "I am happy for you too.",
-    "Happiness increases if you spread it.",
-    "What makes you happy?"
-    ]],
-
-    [r'(.*)anger',
-    [  "Hey, Drink some water , tell me why are you angry?",
-     "Describe your situation , let's analyse it",
-     "Hey, what's the reason? Let's try to keep your mind off it."
-    ]],
-
-    [r'(.*)surprise(.*)',
-    [  "What is the reason for it?",
-       "Would you need some help?",
-       "Do want to talk about it?"
-
-    ]],
+    [r'(.*)song(.*)',
+    [ "I can give more song suggestions to you",
+     "Listening to songs help",
+     "That's a good choice"]],
     
-    
+
     [r'quit',
-    [  "Thank you for talking with me.",
-    "Good-bye.",
-    "Thank you, that will be $150.  Have a good day!"]],
+    [ "Thank you for talking with me.",
+     "Good-bye.",
+     "Thank you, that will be $150.  Have a good day!"]],
 
     [r'(.*)\?',
-    [  "Why do you ask that?",
+    [ "Why do you ask that?",
     "Please consider whether you can answer your own question.",
     "Perhaps the answer lies within yourself?",
     "Why don't you tell me?"]],
 
     [r'(.*)',
-    [  "Please tell me more.",
-    "Let's change focus a bit... Tell me about your family.",
+    ["Please tell me more.",
     "Can you elaborate on that?",
     "Why do you say that %1?",
     "I see.",
-    "Very interesting.",
     "%1.",
-    "I see.  And what does that tell you?",
     "How does that make you feel?",
     "How do you feel when you say that?"]],
-
   
   ]
 
-
 #  command_interface
-
 
 def command_interface():
   print('Therapist\n---------')
@@ -362,7 +351,7 @@ def command_interface():
   print('Hello.  How are you feeling today?')
 
   s = ''
-  therapist = Eliza()
+  therapist = Eliza_Sad()
   while s != 'quit':
     try:
       s = input('> ')

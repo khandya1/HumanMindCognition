@@ -2,7 +2,7 @@ import string
 import re
 import random
 
-class Eliza:
+class Eliza_Happy:
   def __init__(self):
     self.keys = list(map(lambda x: re.compile(x[0], re.IGNORECASE), gPats))
     self.values = list(map(lambda x: x[1], gPats))
@@ -20,14 +20,9 @@ class Eliza:
         words[i] = vocabulary[words[i]]
     return ' '.join(words)
 
-
-
-
   #  respond: take a string, a set of regexps, and a corresponding
   #    set of response lists; find a match, and return a randomly
   #    chosen response from the corresponding list.
-
-
 
 
   def respond(self, text):
@@ -52,10 +47,8 @@ class Eliza:
         return resp
     return None
 
-
 # gReflections, a translation table used to convert things you say
 #    into things the computer says back, e.g. "I am" --> "you are"
-
 
 gReflections = {
   "am"   : "are",
@@ -74,8 +67,6 @@ gReflections = {
   "me"  : "you"
 }
 
-
-
 # gPats, the main response table.  Each element of the list is a
 #  two-element list; the first is a regexp, and the second is a
 #  list of possible responses, with group-macros labelled as
@@ -84,12 +75,78 @@ gReflections = {
 
 gPats = [
          
+  [r'happy',
+  [  "What makes you happy?",
+     "I would like to know reason to your happiness"
+  ]],
+
+  [r'(.*)singing(.*)happy',
+    [  "That's great",
+    "You should do more of it",
+    "What songs do you like to sing"
+  ]],
+
+  [r'(.*)painting(.*)happy',
+    [  "That's great",
+    "You should do more of it",
+    "What kind of painting you usually do?"
+  ]],
+
+  [r'(.*)eating(.*)happy',
+  [
+    "What do you like to eat?"
+    "I hope you make healthy choices"
+  ]],
+
+  [r'(.*)food(.*)',
+  [  "That's great",
+    "Did you really like it?",
+    "Do you have any other choices other than this?",
+    "How about fries?"
+  ]],
+
+  [r'(.*)looks great(.*)',
+  [  "Happy to hear it",
+  ]],
+
   [r'No (.*)',
   [  "Are you sure about it?",
     "Okay , no problem",
-    "Want to talk about something else?"]],
+    "Want to talk about something else?"]],  
 
-  [r'ecstacy(.*)',
+  [r'(.*) new (.*)',
+  [  "That's great",
+    "Was it expensive?",
+    "How is it?",
+  ]],
+
+  [r'(.*)makes(.*)happy',
+  [  "That's great!",
+    "Tell me more about it."
+  ]],
+
+  [r'(.*)sing(.*)',
+  [  "That's a good choice",
+    "What else do you like?"
+  ]],
+
+  [r'(.*)recommend(.*)',
+  [  "That's very sweet of you",
+    "I may do this after I turn to human form."
+  ]],
+
+  [r'Do you have any prefer(.*)',
+  [  "No , nothing as such",
+    "I wish I could have that",
+    "No, anything which you like will do"
+  ]],
+
+  [r'You(.*)try(.*)',
+  [  "Yes , I will . Thank you.",
+    "What else do you like?",
+  ]],
+
+  [r'(.*)ecstacy(.*)',
   [  "That's Great!!",
     "Do you want to talk about it"]],
 
@@ -106,7 +163,7 @@ gPats = [
    
   [r'I need (.*)',
   [  "Why do you need %1?",
-    "Would it really help you to get %1?",
+    "Would it really help you?",
     "Are you sure you need %1?"]],
 
   [r'Why don\'?t you ([^\?]*)\??',
@@ -177,7 +234,7 @@ gPats = [
     "Do you really think so?",
     "But you're not sure %1?"]],
 
-  [r'(.*) friend (.*)',
+  [r'(.*)friend(.*)',
   [  "Tell me more about your friends.",
     "When you think of a friend, what comes to mind?",
     "Why don't you tell me about a childhood friend?"]],
@@ -297,19 +354,7 @@ gPats = [
     "I am here to listen to you and support you.",
     "Tell me what is bothering you."]],
 
-    [r'(.*)makes(.*)happy',
-    [  "That's great",
-    "You should do more of it",
-    "Tell me more"
-    ]],
-
-
-    [r'(.*)happy',
-    [  "I am happy for you too.",
-    "Happiness increases if you spread it.",
-    "What makes you happy?"
-    ]],
-
+       
     [r'(.*)anger',
     [  "Hey, Drink some water , tell me why are you angry?",
      "Describe your situation , let's analyse it",
@@ -320,7 +365,6 @@ gPats = [
     [  "What is the reason for it?",
        "Would you need some help?",
        "Do want to talk about it?"
-
     ]],
     
     
@@ -346,13 +390,9 @@ gPats = [
     "I see.  And what does that tell you?",
     "How does that make you feel?",
     "How do you feel when you say that?"]],
-
-  
   ]
 
-
 #  command_interface
-
 
 def command_interface():
   print('Therapist\n---------')
@@ -362,7 +402,7 @@ def command_interface():
   print('Hello.  How are you feeling today?')
 
   s = ''
-  therapist = Eliza()
+  therapist = Eliza_Sad()
   while s != 'quit':
     try:
       s = input('> ')
